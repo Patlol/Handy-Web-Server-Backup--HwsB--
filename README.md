@@ -1,4 +1,10 @@
-handyBackup
+Handy web server Backup  HwsB
 ===========
 
-useful, convenient, practical, easy-to-use, well-designed, user-friendly, user-oriented, helpful, functional, serviceable BackUp
+_useful, convenient, practical, easy-to-use, well-designed, user-friendly, user-oriented, helpful, functional, serviceable BackUp_
+
+
+Bash script for linux server, MySQL database, usable even plesk
+
+Fully configurable
+-
