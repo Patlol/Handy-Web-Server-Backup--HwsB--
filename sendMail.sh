@@ -25,7 +25,7 @@ printf "Return-Path: <>\nFrom: Notification system <$from>\nTo: $to\nSubject: Ab
 
 # mail message 
 printf "\n--MAIL_BOUNDARY\nContent-Type: text/plain; charset=\"UTF-8\"\nContent-Transfer-Encoding: 8bit\n\n" >>$file  #iso-8859-1
-printf "Hi,\n\nThis is an automated email from $nomHost, \nServer backup\n\n\n" >>$file
+printf "Hi,\n\nThis is an automated email from $nomHost, \nServer backup by HswB\n\n\n" >>$file
 printf "Backup $(date +%Y/%m/%d) at $(date +%H:%M:%S): the process completed, see below the overview\n\n" >>$file
 printf "Backup log:\n\n" >>$file
 textLog=$(cat $log)

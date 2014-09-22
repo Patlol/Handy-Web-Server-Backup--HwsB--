@@ -24,7 +24,7 @@ then
 fi
 if [ -z $* ]
 then
-	configuration="backup.conf"
+	configuration="hwsb.conf"
 fi
 
 # call configuration file
@@ -52,7 +52,7 @@ nameLogFile=$pathBackup"/"`expr match "$configuration" $exreg`".log"
 # delete the directory "save"
 rm -rf $pathBackup"/save"
 echo "---- Loaded configuration file: '"$configuration"' ----" >$nameLogFile
-echo "---- Backup "$(date "+%A %d/%m/%Y")" start at "$(date +%H:%M:%S)" ----" >>$nameLogFile
+echo "---- HwsB backup "$(date "+%A %d/%m/%Y")" start at "$(date +%H:%M:%S)" ----" >>$nameLogFile
 
 $pathScript"files-save.sh" $pathFileSave $nameLogFile $pathBackup 
 $pathScript"site-save.sh" $pathSiteSave $nameLogFile $pathBackup  
