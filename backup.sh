@@ -54,7 +54,6 @@ rm -rf $pathBackup"/save"
 echo "---- Loaded configuration file: '"$configuration"' ----" >$nameLogFile
 echo "---- Backup "$(date "+%A %d/%m/%Y")" start at "$(date +%H:%M:%S)" ----" >>$nameLogFile
 
-# path ou sauvegarder ici $pathBackup + $logNameFile
 $pathScript"files-save.sh" $pathFileSave $nameLogFile $pathBackup 
 $pathScript"site-save.sh" $pathSiteSave $nameLogFile $pathBackup  
 $pathScript"data-dump.sh" $nupMysql $nameLogFile $pathBackup 

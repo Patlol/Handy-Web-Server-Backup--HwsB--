@@ -16,18 +16,18 @@ ftp -inv $1 $4 <<END_SCRIPT >>$5 2>&1
 quote USER $2
 quote PASS $3
 binary
-prompt
-cd $7"/"${numJour}
-mdelete files/*
-mdelete www/*
-mdelete mysql/*
-cd files
+cd $7"/"${numJour}"/files"
+mdelete *
 lcd $6"/save/files"
 mput *
-cd ../www
+cdup
+cd www
+mdelete *
 lcd $6"/save/www"
 mput *
-cd ../mysql
+cdup
+cd mysql
+mdelete *
 lcd $6"/save/mysql"
 mput *
 quit

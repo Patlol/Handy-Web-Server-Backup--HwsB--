@@ -6,12 +6,12 @@
 #   license		GNU General Public License version 2 or later.
 #------------------------------------------------------------------------------------------------
 
-$mailto $mailhost $mailfrom $pathsendmail $nameLogFile $pathScript
-   $1     $2         $3         $4           $5           $6
+# $mailto $mailhost $mailfrom $pathsendmail $nameLogFile $pathScript
+#    $1     $2         $3         $4           $5           $6
 
 log=$5
 
-printf "%s\n" "-- Sends mail --»" >>$log
+printf "%s\n" "-- Sends mail --" >>$log
 
 # Config 
 file=$6"/sysnotify.mail"   # use scripts directory to write mail
