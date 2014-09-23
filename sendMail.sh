@@ -21,7 +21,7 @@ to=$1
 pathsendmail=$4
 
 # mail header 
-printf "Return-Path: <>\nFrom: Notification system <$from>\nTo: $to\nSubject: About $nomHost\nMIME-Version:1.0\nContent-Type: multipart/mixed; boundary=\"MAIL_BOUNDARY\"\nContent-Transfer-Encoding: 8bit\nX-Priority: 1\nX-MSMail-Priority:High\n" >$file
+printf "Return-Path: <>\nFrom: Notification system <$from>\nTo: $to\nSubject: HwsB $nomHost\nMIME-Version:1.0\nContent-Type: multipart/mixed; boundary=\"MAIL_BOUNDARY\"\nContent-Transfer-Encoding: 8bit\nX-Priority: 1\nX-MSMail-Priority:High\n" >$file
 
 # mail message 
 printf "\n--MAIL_BOUNDARY\nContent-Type: text/plain; charset=\"UTF-8\"\nContent-Transfer-Encoding: 8bit\n\n" >>$file  #iso-8859-1

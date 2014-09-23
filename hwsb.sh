@@ -29,6 +29,7 @@ fi
 
 # call configuration file
 pathScript=`dirname $0`/
+ftpServerInit=""
 source ${pathScript}${configuration}
 
 # manage empty variables
@@ -53,6 +54,13 @@ nameLogFile=$pathBackup"/"`expr match "$configuration" $exreg`".log"
 rm -rf $pathBackup"/save"
 echo "---- Loaded configuration file: '"$configuration"' ----" >$nameLogFile
 echo "---- HwsB backup "$(date "+%A %d/%m/%Y")" start at "$(date +%H:%M:%S)" ----" >>$nameLogFile
+
+# init the directories tree on ftp server if necessary
+if [[ $ftpServerInit == "" ]]
+then
+    $pathScript"initFtpServer.sh" $ftphost $ftplogin $ftppw $ftpport $nameLogFile $ftproot
+    echo "ftpServerInit='ok'" >> ${pathScript}${configuration}
+fi
 
 $pathScript"files-save.sh" $pathFileSave $nameLogFile $pathBackup 
 $pathScript"site-save.sh" $pathSiteSave $nameLogFile $pathBackup  
