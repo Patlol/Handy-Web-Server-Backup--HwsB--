@@ -50,6 +50,12 @@ fi
 # nameLogFile = $pathBackup + aaaa + .log
 exreg="\([^\.]*\)"
 nameLogFile=$pathBackup"/"`expr match "$configuration" $exreg`".log"
+# Verifies directory exist /save
+if ! [ -d $pathBackup ]
+then
+    mkdir -p $pathBackup
+fi
+
 # delete the directory "save"
 rm -rf $pathBackup"/save"
 echo "---- Loaded configuration file: '"$configuration"' ----" >$nameLogFile

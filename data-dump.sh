@@ -40,6 +40,7 @@ do
     pw=${nupMysql[$((2+$row))]}
     user=${nupMysql[$((1+$row))]}
     db=${nupMysql[$((0+$row))]}
+    error=0  # error counter
 
     echo "-- Dump of the dataBase "$db" --" >>$log
 
@@ -52,8 +53,19 @@ do
     do
             nameTableFile="${pathBackupSql}${tableau[$element]}.sql"
             mysqldump --opt -u$user --password=$pw $db ${tableau[$element]} > $nameTableFile
-            echo "Exit mysqldump of "${tableau[$element]}": "$? >>$log
+            exitDump=$?
+            if [ $exitDump -ne 0 ]
+            then
+                echo "Error on exit mysqldump of "${tableau[$element]}": "$exitDump >>$log
+                ((error++))
+            fi
     done
+    if [ $error -ne 0 ]
+    then
+        echo $error" errors on mysqldump of "$db" see above" >>$log
+    else
+        echo "No error on mysqldump of "$db >>$log
+    fi
     cd $pathBackup
     tar -czf ${db}.sql.tgz sql 2>>$log
     wait ${!}
