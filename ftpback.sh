@@ -4,37 +4,107 @@
 #   copyright		Copyright (C) Patlol <patlol@share1underground.com>. All rights reserved.
 #   license		GNU General Public License version 2 or later.
 #------------------------------------------------------------------------------------------------
-#   tested on OVH Ftp server
+#   tested on OVH Ftp Unix server and linux server
 
-# $ftphost $ftplogin $ftppw $ftpport $nameLogFile $pathBackup $ftproot
-#   $1        $2      $3       $4        $5         $6          $7
+# $ftphost $ftplogin $ftppw $ftpport $nameLogFile $pathBackup $ftproot period daily weekly monthly
+#   $1        $2      $3       $4        $5         ${6}          $7          $8       $9     $10
+
+rotateMonth()
+{
+    deleteMonth=`expr $month - 3`
+    # if we are on 01 02 03 must delete 10 11 12 and $deleteMonth = -2 -1 0
+    if [ $deleteMonth -le 0 ]
+    then
+        deleteMonth=`expr $deleteMonth + 12`
+    fi
+    # delete the month = $deleteMonth
+    echo "cd "${7}"/m"${deleteMonth}"/files"
+    echo "mdelete *"
+    echo "cdup"
+    echo "cd www"
+    echo "mdelete *"
+    echo "cdup"
+    echo "cd mysql"
+    echo "mdelete *"
+    echo "cd "${7}
+}
+# ------------- main -----------------------------------
 
 echo "-- Data ftp transmission --" >>$5
-numJour=`date +%u`
+numDay=`date +%u`  # monday = 1 [1-7] !1!!!
+dateDay=`date +%d` # date [01-31]     !01!!!
+month=`date +%m`   # [1-12]           !01!!!
 
-ftp -inv $1 $4 <<END_SCRIPT >>$5 2>&1
-quote USER $2
-quote PASS $3
+ftp -inv < <(
+echo "open ${1} ${4}"
+echo "user ${2} ${3}"
 binary
-cd $7"/"${numJour}"/files"
-mdelete *
-lcd $6"/save/files"
-mput *
-cdup
-cd www
-mdelete *
-lcd $6"/save/www"
-mput *
-cdup
-cd mysql
-mdelete *
-lcd $6"/save/mysql"
-mput *
-quit
-END_SCRIPT
+
+if [[ ${8} -eq 1 ]]  # daily backup d1/ d2/ ... [1-7]
+then
+    echo "cd "${7}"/d"${numDay}"/files"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/files"
+    echo "mput *"
+    echo "cdup"
+    echo "cd www"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/www"
+    echo "mput *"
+    echo "cdup"
+    echo "cd mysql"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/mysql"
+    echo "mput *"
+    echo "cd "${7}
+    logDaily=" daily d"${numDay}
+fi
+
+# exreg="\(01\|08\|15\|22\)"
+# weekly backup 1 8 15 22 each month
+if [[ ${9} -eq 1 && $dateDay =~  01|08|15|22 ]]    # `expr match "$dateDay" $exreg` ]]
+then
+    echo "cd "${7}"/w"${dateDay}"/files"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/files"
+    echo "mput *"
+    echo "cdup"
+    echo "cd www"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/www"
+    echo "mput *"
+    echo "cdup"
+    echo "cd mysql"
+    echo "mdelete *"
+    echo "lcd "${6}"/save/mysql"
+    echo "mput *"
+    echo "cd "${7}
+    logWeekly=" weekly w"${dateDay}
+fi
+
+if [[ ${10} -eq 1 && dateDay -eq 1 ]] # monthly backup [01-12]
+then
+    rotateMonth
+    echo "cd "${7}"/m"${month}"/files"
+    echo "lcd "${6}"/save/files"
+    echo "mput *"
+    echo "cdup"
+    echo "cd www"
+    echo "lcd "${6}"/save/www"
+    echo "mput *"
+    echo "cdup"
+    echo "cd mysql"
+    echo "lcd "${6}"/save/mysql"
+    echo "mput *"
+    echo "cd "${7}
+    logMonthly=" monthly m"${month}
+fi
+
+echo "exit"
+) >>$5 2>&1
 
 echo "Exit connection: "$? >>$5
 echo "********************************************************" >> $5
-echo "Daily ftp repertory: "$numJour >>$5
+echo "ftp repertory:"${logDaily}${logWeekly}${logMonthly} >>$5
 
 

@@ -8,8 +8,20 @@
 
 renice 19 -p $$ &>/dev/null
 
-# $ftphost $ftplogin $ftppw $ftpport $nameLogFile $ftproot
-#   $1        $2      $3       $4        $5         $6
+# $ftphost $ftplogin $ftppw $ftpport $nameLogFile $ftproot period daily weekly monthly
+#   $1        $2      $3       $4        $5         $6          $7       $8     $9
+
+
+formatTerm ()  # if $term one digit add "0"
+{
+    if [[ $term =~ ^.$  ]]  # if matching = true
+    then
+        term0="0"$term
+    else
+        term0=$term
+    fi
+}
+# ------------------- main ------------------------------
 
 echo "---- Directories tree initialization on ftp server ----" >>$5
 
@@ -20,28 +32,36 @@ echo "open ${1} ${4}"
 echo "user ${2} ${3}"
 echo "mkdir $6"
 echo "cd $6"
-echo "mdelete *"
-echo "mkdir 1"
-echo "mkdir 2"
-echo "mkdir 3"
-echo "mkdir 4"
-echo "mkdir 5"
-echo "mkdir 6"
-echo "mkdir 7"
-echo "cd 1"
-echo -e $seq1
-echo "cd 2"
-echo -e $seq1
-echo "cd 3"
-echo -e $seq1
-echo "cd 4"
-echo -e $seq1
-echo "cd 5"
-echo -e $seq1
-echo "cd 6"
-echo -e $seq1
-echo "cd 7"
-echo -e $seq1
+echo "mdelete *"  # if directory already exist
+if [ ${7} -eq 1 ]  # days directories d[1-7]
+then
+    for ((d=1; d <= 7 ; d++))
+    do
+        echo "mkdir d0"$d
+        echo "cd d0"$d
+        echo -e $seq1
+    done
+fi
+if [ ${8} -eq 1 ] # weeks directories w[01-08-15-22]
+then
+    for ((term=1; term <= 22 ; term=`expr $term + 7`))
+    do
+        formatTerm  # if $term one digit add "0"
+        echo "mkdir w"$term0
+        echo "cd w"$term0
+        echo -e $seq1
+    done
+fi
+if [ ${9} -eq 1 ] # months directories m[01-12]
+then
+    for ((m=1; m <= 12 ; m++))
+    do
+        formatTerm  # if $term one digit add "0"
+        echo "mkdir m"$term0
+        echo "cd m"$term0
+        echo -e $seq1
+    done
+fi
 echo "exit"
 ) >>$5 2>&1
 
