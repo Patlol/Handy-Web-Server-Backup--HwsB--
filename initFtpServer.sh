@@ -32,6 +32,7 @@ echo "open ${1} ${4}"
 echo "user ${2} ${3}"
 echo "mkdir $6"
 echo "cd $6"
+
 echo "mdelete *"  # if directory already exist
 if [ ${7} -eq 1 ]  # days directories d[1-7]
 then
@@ -54,7 +55,7 @@ then
 fi
 if [ ${9} -eq 1 ] # months directories m[01-12]
 then
-    for ((m=1; m <= 12 ; m++))
+    for ((term=1; term <= 12 ; term++))
     do
         formatTerm  # if $term one digit add "0"
         echo "mkdir m"$term0

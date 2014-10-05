@@ -9,6 +9,16 @@
 # $ftphost $ftplogin $ftppw $ftpport $nameLogFile $pathBackup $ftproot period daily weekly monthly
 #   $1        $2      $3       $4        $5         ${6}          $7          $8       $9     $10
 
+formatMonth ()  # if $term one digit add "0"
+{
+    if [[ $deleteMonth =~ ^.$  ]]  # if matching = true
+    then
+        deleteMonth0="0"$deleteMonth
+    else
+        deleteMonth0=$deleteMonth
+    fi
+}
+
 rotateMonth()
 {
     deleteMonth=`expr $month - 3`
@@ -17,6 +27,7 @@ rotateMonth()
     then
         deleteMonth=`expr $deleteMonth + 12`
     fi
+    formatMonth  # for $deleteMonth 1-9 => 01-09
     # delete the month = $deleteMonth
     echo "cd "${7}"/m"${deleteMonth}"/files"
     echo "mdelete *"
@@ -31,14 +42,14 @@ rotateMonth()
 # ------------- main -----------------------------------
 
 echo "-- Data ftp transmission --" >>$5
-numDay=`date +%u`  # monday = 1 [1-7] !1!!!
+numDay="0"`date +%u`  # monday = 1 [1-7] !1!!!
 dateDay=`date +%d` # date [01-31]     !01!!!
 month=`date +%m`   # [1-12]           !01!!!
 
 ftp -inv < <(
 echo "open ${1} ${4}"
 echo "user ${2} ${3}"
-binary
+echo "binary"
 
 if [[ ${8} -eq 1 ]]  # daily backup d1/ d2/ ... [1-7]
 then
@@ -106,5 +117,3 @@ echo "exit"
 echo "Exit connection: "$? >>$5
 echo "********************************************************" >> $5
 echo "ftp repertory:"${logDaily}${logWeekly}${logMonthly} >>$5
-
-
