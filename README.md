@@ -73,7 +73,8 @@ Use
 
 After unzip run _./hwsb.sh_
 
-you can have multiple configuration files:    
+You must fill the configuration file   
+You can have multiple configuration files:    
 By example for a site `./hwsb.sh site1.conf`     
 then to another site with different periods  `./hwsb.sh site2.conf`
 
@@ -92,7 +93,8 @@ _restoresql.sh_ Will retrieve tables of a database from the ftp backup server on
   usage: `restoresql.sh -n databaseName -u userName -p passWord [sqlFilesRepertory (default: ./sql)]`
   
 _cleanFtpServer.sh_ Destroyed the backup directories and files from backups    
-  usage: `./cleanFtpServer.sh [configuration file name: xxxx.conf]`
+  usage: You must fill the configuration file  
+  `./cleanFtpServer.sh [configuration file name: xxxx.conf (default: ./cleanFtpServer.conf)]`
 
 -------
 
