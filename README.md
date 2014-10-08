@@ -17,15 +17,15 @@ Fully configurable:
 
   1 Daily: every day, 7-day rotation
 
-  `dailyBackup="on"`
+    `dailyBackup="on"`
 
   2 Weekly: monday every week, 4-week rotation
 
-  `weeklyBackup="on"`
+    `weeklyBackup="on"`
 
   3 Monthly: first of each month, 3-month rotation
 
-  `monthlyBackup="on"`
+    `monthlyBackup="on"`
 
 * Path where the backup and log files are written, for pathBackup="/root" the files are on /root/save/ and /root/log/
 
@@ -65,7 +65,7 @@ Fully configurable:
 
 * ftp backup root path on ftp server. Attention to the directories attributes
 
-`ftproot="/uuu/vvv/www"`
+  `ftproot="/uuu/vvv/www"`
 
 * Mail server name host ( if empty mailhost = /etc/hostname )
 

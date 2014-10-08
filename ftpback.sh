@@ -45,6 +45,9 @@ echo "-- Data ftp transmission --" >>$5
 numDay="0"`date +%u`  # monday = 1 [1-7] !1!!!
 dateDay=`date +%d` # date [01-31]     !01!!!
 month=`date +%m`   # [1-12]           !01!!!
+logDaily=""
+logWeekly=""
+logMonthly=""
 
 ftp -inv < <(
 echo "open ${1} ${4}"
