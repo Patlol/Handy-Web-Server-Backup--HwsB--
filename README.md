@@ -89,7 +89,7 @@ __Warning__ ftp backup ovh servers are only accessed from the ovh dedicated serv
 Utilities directory
 ----
 
-_restoresql.sh_ Will retrieve tables of a database from the ftp backup server on the server where the script runs   
+_restoresql.sh_ Will retrieve tables of a database from the ftp backup server to the server where the script runs   
   usage: `restoresql.sh -n databaseName -u userName -p passWord [sqlFilesRepertory (default: ./sql)]`
   
 _cleanFtpServer.sh_ Destroyed the backup directories and files from backups    
@@ -100,7 +100,7 @@ _cleanFtpServer.sh_ Destroyed the backup directories and files from backups
 
 Acknowledgments
 ----------
-The one who was at the origin of this project: [Yann Dubois](http://www.yann.com/fr/dedie-ovh-sauvegarde-automatisee-ftp-gratuite-06/05/2011.html)
+One whose script gave me the idea for this project: [Yann Dubois](http://www.yann.com/fr/dedie-ovh-sauvegarde-automatisee-ftp-gratuite-06/05/2011.html)
 
 ---------
 
