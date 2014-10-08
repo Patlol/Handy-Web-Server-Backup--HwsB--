@@ -44,7 +44,7 @@ rotateMonth()
 echo "-- Data ftp transmission --" >>$5
 numDay="0"`date +%u`  # monday = 1 [1-7] !1!!!
 dateDay=`date +%d` # date [01-31]     !01!!!
-month=`date +%m`   # [1-12]           !01!!!
+month=`date +%m`   # [01-12]           !01!!!
 logDaily=""
 logWeekly=""
 logMonthly=""
@@ -96,7 +96,7 @@ then
     logWeekly=" weekly w"${dateDay}
 fi
 
-if [[ ${10} -eq 1 && dateDay -eq 1 ]] # monthly backup [01-12]
+if [[ ${10} -eq 1 && 10#$dateDay -eq 1 ]] # monthly backup [01-12] 0x octal 10# force decimal
 then
     rotateMonth
     echo "cd "${7}"/m"${month}"/files"
