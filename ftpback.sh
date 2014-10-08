@@ -45,9 +45,6 @@ echo "-- Data ftp transmission --" >>$5
 numDay="0"`date +%u`  # monday = 1 [1-7] !1!!!
 dateDay=`date +%d` # date [01-31]     !01!!!
 month=`date +%m`   # [01-12]           !01!!!
-logDaily=""
-logWeekly=""
-logMonthly=""
 
 ftp -inv < <(
 echo "open ${1} ${4}"
@@ -56,6 +53,7 @@ echo "binary"
 
 if [[ ${8} -eq 1 ]]  # daily backup d1/ d2/ ... [1-7]
 then
+    echo "!echo '- Ftp daily repertory: d'${numDay}' -'"
     echo "cd "${7}"/d"${numDay}"/files"
     echo "mdelete *"
     echo "lcd "${6}"/save/files"
@@ -71,13 +69,13 @@ then
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
     echo "cd "${7}
-    logDaily=" daily d"${numDay}
 fi
 
 # exreg="\(01\|08\|15\|22\)"
 # weekly backup 1 8 15 22 each month
 if [[ ${9} -eq 1 && $dateDay =~  01|08|15|22 ]]    # `expr match "$dateDay" $exreg` ]]
 then
+    echo "!echo '- Ftp weekly repertory: w'${dateDay}' -'"
     echo "cd "${7}"/w"${dateDay}"/files"
     echo "mdelete *"
     echo "lcd "${6}"/save/files"
@@ -93,12 +91,12 @@ then
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
     echo "cd "${7}
-    logWeekly=" weekly w"${dateDay}
 fi
 
 if [[ ${10} -eq 1 && 10#$dateDay -eq 1 ]] # monthly backup [01-12] 0x octal 10# force decimal
 then
     rotateMonth
+    echo "!echo '- Ftp monthly repertory: m'${month}' -'"
     echo "cd "${7}"/m"${month}"/files"
     echo "lcd "${6}"/save/files"
     echo "mput *"
@@ -111,7 +109,6 @@ then
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
     echo "cd "${7}
-    logMonthly=" monthly m"${month}
 fi
 
 echo "exit"
@@ -119,4 +116,3 @@ echo "exit"
 
 echo "Exit connection: "$? >>$5
 echo "********************************************************" >> $5
-echo "ftp repertory:"${logDaily}${logWeekly}${logMonthly} >>$5
