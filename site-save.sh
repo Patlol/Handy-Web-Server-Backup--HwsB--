@@ -29,12 +29,12 @@ fi
 # processing others parameters
 y=0  # index
 # $i = number of directory to save
-exreg=".*/\(.*\)$"
 while [ "$y" -lt "$i" ]
 do
     echo "-- tar of website "${path[$y]}" --" >>$log
     # keeps only the name of the directory to save
-    zipName=`expr "${path[$y]}" : $exreg`
+    # switch "/" by "-" ^\/ don't use the first "/" \//-/ replace all "/" by "-"
+    zipName=`echo ${path[$y]} | sed -e 's/^\///; s/\//-/g'`
     tar -czf ${pathBackup}${zipName}.tgz ${path[$y]} 2>>$log
     echo "Exit : "$? >>$log
     ((y++))
