@@ -29,7 +29,7 @@ rotateMonth()
     fi
     formatMonth  # for $deleteMonth 1-9 => 01-09
     # delete the month = $deleteMonth
-    echo "cd "${7}"/m"${deleteMonth}"/files"
+    echo "cd "${7}"/m"${deleteMonth0}"/files"
     echo "mdelete *"
     echo "cdup"
     echo "cd www"
@@ -37,7 +37,7 @@ rotateMonth()
     echo "cdup"
     echo "cd mysql"
     echo "mdelete *"
-    echo "cd "${7}
+    echo "cd /"${7}
 }
 # ------------- main -----------------------------------
 
@@ -46,7 +46,7 @@ numDay="0"`date +%u`  # monday = 1 [1-7] !1!!!
 dateDay=`date +%d` # date [01-31]     !01!!!
 month=`date +%m`   # [01-12]           !01!!!
 
-ftp -inv < <(
+ftp -invp < <(
 echo "open ${1} ${4}"
 echo "user ${2} ${3}"
 echo "binary"
@@ -68,7 +68,7 @@ then
     echo "mdelete *"
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
-    echo "cd "${7}
+    echo "cd /"${7}
 fi
 
 # exreg="\(01\|08\|15\|22\)"
@@ -90,7 +90,7 @@ then
     echo "mdelete *"
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
-    echo "cd "${7}
+    echo "cd /"${7}
 fi
 
 if [[ ${10} -eq 1 && 10#$dateDay -eq 1 ]] # monthly backup [01-12] 0x octal 10# force decimal
@@ -108,7 +108,7 @@ then
     echo "cd mysql"
     echo "lcd "${6}"/save/mysql"
     echo "mput *"
-    echo "cd "${7}
+    echo "cd /"${7}
 fi
 
 echo "exit"
