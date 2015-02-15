@@ -50,25 +50,34 @@ ftp -invp < <(
 echo "open ${1} ${4}"
 echo "user ${2} ${3}"
 echo "binary"
+echo "!echo '---------------------------------------------------------'"
 
 if [[ ${8} -eq 1 ]]  # daily backup d1/ d2/ ... [1-7]
 then
     echo "!echo '- Ftp daily repertory: d'${numDay}' -'"
-    echo "cd "${7}"/d"${numDay}"/files"
+    echo "!echo '---------------------------------------------------------'"
+    echo "cd /"${7}"/d"${numDay}"/files"
     echo "mdelete *"
     echo "lcd "${6}"/save/files"
+    echo "!echo '------------------------Files----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd www"
     echo "mdelete *"
     echo "lcd "${6}"/save/www"
+    echo "!echo '------------------------Sites----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd mysql"
     echo "mdelete *"
     echo "lcd "${6}"/save/mysql"
+    echo "!echo '------------------------Data Bases-----------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cd /"${7}
+    echo "!echo '---------------------------------------------------------'"
 fi
 
 # exreg="\(01\|08\|15\|22\)"
@@ -76,43 +85,59 @@ fi
 if [[ ${9} -eq 1 && $dateDay =~  01|08|15|22 ]]    # `expr match "$dateDay" $exreg` ]]
 then
     echo "!echo '- Ftp weekly repertory: w'${dateDay}' -'"
-    echo "cd "${7}"/w"${dateDay}"/files"
+    echo "!echo '---------------------------------------------------------'"
+    echo "cd /"${7}"/w"${dateDay}"/files"
     echo "mdelete *"
     echo "lcd "${6}"/save/files"
+    echo "!echo '------------------------Files----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd www"
     echo "mdelete *"
     echo "lcd "${6}"/save/www"
+    echo "!echo '------------------------Sites----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd mysql"
     echo "mdelete *"
     echo "lcd "${6}"/save/mysql"
+    echo "!echo '------------------------Data Bases-----------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cd /"${7}
+    echo "!echo '---------------------------------------------------------'"
 fi
 
 if [[ ${10} -eq 1 && 10#$dateDay -eq 1 ]] # monthly backup [01-12] 0x octal 10# force decimal
 then
     rotateMonth
     echo "!echo '- Ftp monthly repertory: m'${month}' -'"
-    echo "cd "${7}"/m"${month}"/files"
+    echo "!echo '---------------------------------------------------------'"
+    echo "cd /"${7}"/m"${month}"/files"
     echo "lcd "${6}"/save/files"
+    echo "!echo '------------------------Files----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd www"
     echo "lcd "${6}"/save/www"
+    echo "!echo '------------------------Sites----------------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cdup"
     echo "cd mysql"
     echo "lcd "${6}"/save/mysql"
+    echo "!echo '------------------------Data Bases-----------------------'"
     echo "mput *"
+    echo "!echo '---------------------------------------------------------'"
     echo "cd /"${7}
+    echo "!echo '---------------------------------------------------------'"
 fi
 
 echo "exit"
 ) >>$5 2>&1
 
 echo "Exit connection: "$? >>$5
-echo "********************************************************" >> $5
+echo "---------------------------------------------------------" >> $5

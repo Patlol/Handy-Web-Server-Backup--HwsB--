@@ -74,12 +74,13 @@ echo -n "---- Backup period are: " >>$nameLogFile  # for period in $periods do .
 [ ${period[2]} -eq 1 ] && echo -n "monthly ">>$nameLogFile
 echo "----">>$nameLogFile
 echo "---- HwsB backup "$(date "+%A %d/%m/%Y")" start at "$(date +%H:%M:%S)" ----" >>$nameLogFile
+echo "---------------------------------------------------------" >>$nameLogFile
 
 # init the directories tree on ftp server if necessary
 if [[ $ftpServerInit == "" ]]
 then
     # `echo ${period[@]}` => pass all the array as an argument
-    $pathScript"initFtpServer.sh" $ftphost $ftplogin $ftppw $ftpport $nameLogFile $ftproot `echo ${period[@]}`
+    $pathScript"initFtpServer.sh" $ftphost $ftplogin $ftppw $ftpport $nameLogFile $ftproot
     echo "ftpServerInit='ok'" >> ${pathScript}${configuration}
 fi
 
@@ -89,6 +90,7 @@ $pathScript"data-dump.sh" $nupMysql $nameLogFile $pathBackup
 $pathScript"ftpback.sh" $ftphost $ftplogin $ftppw $ftpport $nameLogFile $pathBackup $ftproot `echo ${period[@]}`
 
 echo "---- End of backup at "$(date +%H:%M:%S)" ----" >>$nameLogFile
+echo "---------------------------------------------------------" >>$nameLogFile
 
 if [[ $mailto != "" ]]
 then

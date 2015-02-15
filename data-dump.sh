@@ -72,6 +72,7 @@ do
     echo "Exit tar: "$? >>$log
     rm -fr $pathBackupSql
     echo "Exit rm: "$? >>$log
+    echo "---------------------------------------------------------" >>$log
 
     ((z++))
     ((row += 3))

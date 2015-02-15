@@ -37,5 +37,6 @@ do
     zipName=`echo ${path[$y]} | sed -e 's/^\///; s/\//-/g'`
     tar -czf ${pathBackup}${zipName}.tgz ${path[$y]} 2>>$log
     echo "Exit : "$? >>$log
+    echo "---------------------------------------------------------" >>$log
     ((y++))
 done
