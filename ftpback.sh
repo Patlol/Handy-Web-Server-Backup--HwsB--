@@ -11,25 +11,30 @@
 
 formatMonth ()  # if $term one digit add "0"
 {
-    if [[ $deleteMonth =~ ^.$  ]]  # if matching = true
+    # ${1} arg of function formatMonth()
+    if [[ ${1} =~ ^.$  ]]  # if matching = true
     then
-        deleteMonth0="0"$deleteMonth
+        deleteMonth0="0"${1}
     else
-        deleteMonth0=$deleteMonth
+        deleteMonth0=${1}
     fi
+    return $deleteMonth0
 }
 
 rotateMonth()
 {
+    # first arg => ${7} is here ${1}
     deleteMonth=`expr $month - 3`
     # if we are on 01 02 03 must delete 10 11 12 and $deleteMonth = -2 -1 0
     if [ $deleteMonth -le 0 ]
     then
         deleteMonth=`expr $deleteMonth + 12`
     fi
-    formatMonth  # for $deleteMonth 1-9 => 01-09
+    formatMonth "${deleteMonth}"  # for $deleteMonth 1-9 => 01-09
     # delete the month = $deleteMonth
-    echo "cd "${7}"/m"${deleteMonth0}"/files"
+    echo "!echo '- Ftp delete:  m'${deleteMonth0}' -'"
+    echo "!echo '---------------------------------------------------------'"
+    echo "cd /"${1}"/m"${deleteMonth0}"/files"
     echo "mdelete *"
     echo "cdup"
     echo "cd www"
@@ -38,6 +43,7 @@ rotateMonth()
     echo "cd mysql"
     echo "mdelete *"
     echo "cd /"${7}
+    echo "!echo '---------------------------------------------------------'"
 }
 # ------------- main -----------------------------------
 
@@ -112,7 +118,7 @@ fi
 
 if [[ ${10} -eq 1 && 10#$dateDay -eq 1 ]] # monthly backup [01-12] 0x octal 10# force decimal
 then
-    rotateMonth
+    rotateMonth ${7}
     echo "!echo '- Ftp monthly repertory: m'${month}' -'"
     echo "!echo '---------------------------------------------------------'"
     echo "cd /"${7}"/m"${month}"/files"

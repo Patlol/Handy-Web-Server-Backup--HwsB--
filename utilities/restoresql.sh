@@ -44,7 +44,7 @@ fi
 
 echo
 echo "Database name: $nval"
-echo "User, root if you want to create the database: $uval"
+echo "User, root if you want to create the database: you are $uval"
 echo "Pass word of user $uval: -->$pval<--"
 echo "*.sql files repertory is: $pathSql"
 read -p "ok to proceed? (y,n) " reponse
